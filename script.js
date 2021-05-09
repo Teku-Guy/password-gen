@@ -1,6 +1,16 @@
-// Assignment code here
-var userInput = "";
-var arrySplit = "";
+var passwordLength = "";
+var finalPassword = "";
+var hasLower;
+var hasUpper;
+var hasNumber;
+var hasSymbol;
+
+var randomFunc = {
+  hasLower: getRandomLower,
+	hasUpper: getRandomUpper,
+	hasNumber: getRandomNumber,
+	hasSymbol: getRandomSymbol
+}
 
 //generator Functions
 function getRandomLower() {
@@ -16,23 +26,58 @@ function getRandomNumber() {
 }
 
 function getRandomSymbol() {
-  var symbols = "!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
-  return symbols[Math.floor(Math.random() * symbols.length)]; //generates random symbol from const symbols array.
+  var symbols = "!@#$%^&*()_-+={}[];:'`~<,>.?/|";
+  return symbols[Math.floor(Math.random() * symbols.length)]; //generates random symbol from var symbols array.
 }
 //end generator functions
 
+var getlength = function() {
+  passwordLength = prompt("Choose how many characters long you'd like your password to be (between 8-128 characters): ");
 
+  if(passwordLength < 8){
+    alert("Password length must be a number between 8-128 characters");
+    getlength();
+  } else if(passwordLength > 128) {
+    alert("Password length must be a number between 8-128 characters");
+    getlength();
+  } else {
+    alert("You have selected a valid length: " + passwordLength + "\n");
+  }
 
-//password generator function
+  return parseInt(passwordLength);
+};
+
+function setOptions(){
+  hasLower = confirm("want lowercan letters?");
+  hasUpper = confirm("want uppercase letters?");
+  hasNumber = confirm("Want numbers?");
+  hasSymbol = confirm("want special characters?");
+}
+
 function generatePassword() {
+	let generatedPassword = '';
+  var length = getlength();
+  setOptions();
+	var typesCount = hasLower + hasUpper + hasNumber + hasSymbol;
+  console.log(typesCount);
+	var typesArr = [{ hasLower }, { hasUpper }, { hasNumber }, { hasSymbol }].filter(item => Object.values(item)[0]);
+  console.log(typesArr);
+	
+  // Doesn't have a selected type
+  if(typesCount === 0) {
+    alert('Must Select atleast One option. Try again!');
+    return '';
+  }
 
-  alert("The criteria for password generator are lowercase, uppercase, numeric, and/or special characters.");
-
-  userInput = prompt("Select criteria for password (you can select more than one) (use space): 1=lowercase 2=uppercase 3=numeric 4=special characters.\n");
-  userInput = userInput.split(" ");
-  arrySplit = userInput.slice(0, userInput.length); // this will store our user input paramiters and create and array for us to access later on.
-
-  return getRandomLower() + getRandomUpper() + getRandomNumber() + getRandomSymbol();
+  // create a loop
+  for(let i=0; i<length; i+=typesCount) {
+    typesArr.forEach(type => {
+      var funcName = Object.keys(type)[0];
+      generatedPassword += randomFunc[funcName]();
+    });
+  }
+  finalPassword = generatedPassword.slice(0, length);
+  return finalPassword;
 }
 
 // Get references to the #generate element
