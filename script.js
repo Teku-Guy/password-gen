@@ -1,9 +1,10 @@
 var passwordLength = "";
 var finalPassword = "";
-var hasLower;
-var hasUpper;
-var hasNumber;
-var hasSymbol;
+var hasLower = false;
+var hasUpper = false;
+var hasNumber = false;
+var hasSymbol = false;
+var arraySplit = "";
 
 var randomFunc = {
   hasLower: getRandomLower,
@@ -48,10 +49,16 @@ var getlength = function() {
 };
 
 function setOptions(){
-  hasLower = confirm("want lowercan letters?");
-  hasUpper = confirm("want uppercase letters?");
-  hasNumber = confirm("Want numbers?");
-  hasSymbol = confirm("want special characters?");
+  var checkLower = prompt("Would you like to use lowercase letters" + "\n" + "Type 'Yes' or 'No'");
+  var checkUpper = prompt("Would you like to use Uppercase letters" + "\n" + "Type 'Yes' or 'No'");
+  var checkNumber = prompt("Would you like to use Numbers " + "\n" + "Type 'Yes' or 'No'");
+  var checkSymbol = prompt("Would you like to use Symbols or Special Characters" + "\n" + "Type 'Yes' or 'No'");
+  checkLower = checkLower.toLowerCase();
+  checkUpper = checkUpper.toLowerCase();
+  checkNumber = checkNumber.toLowerCase();
+  checkSymbol = checkSymbol.toLowerCase();
+  arraySplit = [checkLower, checkUpper, checkNumber, checkSymbol];
+  console.log(arraySplit);
 }
 
 function generatePassword() {
