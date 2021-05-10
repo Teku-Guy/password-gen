@@ -68,25 +68,24 @@ function setOptions(){
 function generatePassword() {
 	let generatedPassword = '';
   let length = getlength();
-  setOptions();
-	var typesCount = hasLower + hasUpper + hasNumber + hasSymbol;
-  console.log(typesCount);
+  setOptions(); //set are criteria for pass
+	var typesCount = hasLower + hasUpper + hasNumber + hasSymbol; //here we how manny criteria we have selected
 	var typesArr = [{ hasLower }, { hasUpper }, { hasNumber }, { hasSymbol }].filter(item => Object.values(item)[0]);
-  console.log(typesArr);
 	
-  // Doesn't have a selected type
+  // if criteria = 0 means none selected and restart proccess
   if(typesCount === 0) {
-    alert('Must Select atleast One option. Try again!');
-    return '';
+    alert('Must Select atleast One option. Try again!'); //Must Select atleast One option. Press the button to try again!
+    return generatePassword(); //restart the function
   }
 
-  // create a loop
+  // create the gen loop
   for(let i=0; i<length; i+=typesCount) {
     typesArr.forEach(type => {
       var funcName = Object.keys(type)[0];
       generatedPassword += randomFunc[funcName]();
     });
   }
+  
   finalPassword = generatedPassword.slice(0, length);
   return finalPassword;
 }
