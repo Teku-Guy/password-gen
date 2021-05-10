@@ -4,7 +4,7 @@ var hasUpper;
 var hasNumber;
 var hasSymbol;
 
-var randomFunc = {
+var randomFunc = {  //stores are random generated characters
   hasLower: getRandomLower,
 	hasUpper: getRandomUpper,
 	hasNumber: getRandomNumber,
@@ -85,7 +85,7 @@ function generatePassword() {
       generatedPassword += randomFunc[funcName]();
     });
   }
-  
+
   finalPassword = generatedPassword.slice(0, length);
   return finalPassword;
 }
