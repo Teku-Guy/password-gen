@@ -4,7 +4,7 @@ var hasLower = false;
 var hasUpper = false;
 var hasNumber = false;
 var hasSymbol = false;
-var arraySplit = "";
+var optionsArry = [];
 
 var randomFunc = {
   hasLower: getRandomLower,
@@ -57,14 +57,46 @@ function setOptions(){
   checkUpper = checkUpper.toLowerCase();
   checkNumber = checkNumber.toLowerCase();
   checkSymbol = checkSymbol.toLowerCase();
-  arraySplit = [checkLower, checkUpper, checkNumber, checkSymbol];
-  console.log(arraySplit);
+  var checkArry = [checkLower, checkUpper, checkNumber, checkSymbol];
+  optionsArry = [hasLower, hasUpper, hasNumber, hasSymbol];
+  console.log(optionsArry);
+  for(var i = 0; i < 4; i++){
+    console.log(checkArry[i]);
+    switch(checkArry[i]){ 
+      case "yes":
+        switch(i){
+          case 0:
+            hasLower = true;
+            break;
+          case 1:
+            hasUpper = true;
+            break;
+          case 2:
+            hasNumber = true;
+            break;
+          case 3:
+            hasSymbol = true;
+            break;
+          default:
+            break;
+        }
+        break;
+      case "no":
+        optionsArry[i] = false;
+        break;
+      default:
+        alert("You need to input 'Yes' or 'No'");
+        break;
+    }
+  }
+  console.log(optionsArry);
 }
 
 function generatePassword() {
 	let generatedPassword = '';
   var length = getlength();
   setOptions();
+  console.log(optionsArry);
 	var typesCount = hasLower + hasUpper + hasNumber + hasSymbol;
   console.log(typesCount);
 	var typesArr = [{ hasLower }, { hasUpper }, { hasNumber }, { hasSymbol }].filter(item => Object.values(item)[0]);
@@ -73,7 +105,7 @@ function generatePassword() {
   // Doesn't have a selected type
   if(typesCount === 0) {
     alert('Must Select atleast One option. Try again!');
-    return '';
+    return "Must Select atleast One option.\nHit generate password to try again!";
   }
 
   // create a loop
