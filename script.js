@@ -1,10 +1,8 @@
-var passwordLength = "";
 var finalPassword = "";
-var hasLower = false;
-var hasUpper = false;
-var hasNumber = false;
-var hasSymbol = false;
-var optionsArry = [];
+var hasLower;
+var hasUpper;
+var hasNumber;
+var hasSymbol;
 
 var randomFunc = {
   hasLower: getRandomLower,
@@ -32,71 +30,45 @@ function getRandomSymbol() {
 }
 //end generator functions
 
-var getlength = function() {
-  passwordLength = prompt("Choose how many characters long you'd like your password to be (between 8-128 characters): ");
+var validateType = function() {
+  //debugger;
+  let passwordLength = prompt("Choose how many characters long you'd like your password to be (between 8-128 characters): ");
+  if(typeof passwordLength === "string"){
+    var parsedChar = parseInt(passwordLength);
+    if(isNaN(parsedChar)){
+      alert("You have entered a word must be a number.");
+      return validateType();
+    } else {
+      return parsedChar;
+    }
+  }
+}
 
-  if(passwordLength < 8){
-    alert("Password length must be a number between 8-128 characters");
-    getlength();
-  } else if(passwordLength > 128) {
-    alert("Password length must be a number between 8-128 characters");
-    getlength();
+var getlength = function() {
+  let validLength = validateType();
+  //debugger;
+  console.log(validLength);
+  if(validLength >= 8 && validLength <= 128){
+    alert("You have selected a valid length: " + validLength + "\n");
   } else {
-    alert("You have selected a valid length: " + passwordLength + "\n");
+    alert("Password length must be a number between 8-128 characters");
+    return getlength();
   }
 
-  return parseInt(passwordLength);
+  return validLength;
 };
 
 function setOptions(){
-  var checkLower = prompt("Would you like to use lowercase letters" + "\n" + "Type 'Yes' or 'No'");
-  var checkUpper = prompt("Would you like to use Uppercase letters" + "\n" + "Type 'Yes' or 'No'");
-  var checkNumber = prompt("Would you like to use Numbers " + "\n" + "Type 'Yes' or 'No'");
-  var checkSymbol = prompt("Would you like to use Symbols or Special Characters" + "\n" + "Type 'Yes' or 'No'");
-  checkLower = checkLower.toLowerCase();
-  checkUpper = checkUpper.toLowerCase();
-  checkNumber = checkNumber.toLowerCase();
-  checkSymbol = checkSymbol.toLowerCase();
-  var checkArry = [checkLower, checkUpper, checkNumber, checkSymbol];
-  optionsArry = [hasLower, hasUpper, hasNumber, hasSymbol];
-  console.log(optionsArry);
-  for(var i = 0; i < 4; i++){
-    console.log(checkArry[i]);
-    switch(checkArry[i]){ 
-      case "yes":
-        switch(i){
-          case 0:
-            hasLower = true;
-            break;
-          case 1:
-            hasUpper = true;
-            break;
-          case 2:
-            hasNumber = true;
-            break;
-          case 3:
-            hasSymbol = true;
-            break;
-          default:
-            break;
-        }
-        break;
-      case "no":
-        optionsArry[i] = false;
-        break;
-      default:
-        alert("You need to input 'Yes' or 'No'");
-        break;
-    }
-  }
-  console.log(optionsArry);
+  hasLower = confirm("Would you like to use Lowercase letters" + "\n" + "Press 'OK' to include.");
+  hasUpper = confirm("Would you like to use Uppercase letters?" + "\n" + "Press 'OK' to include.");
+  hasNumber = confirm("Would you like to use Numbers?" + "\n" + "Press 'OK' to include.");
+  hasSymbol = confirm("Would you like to use Special characters?" + "\n" + "Press 'OK' to include.");
 }
 
 function generatePassword() {
 	let generatedPassword = '';
-  var length = getlength();
+  let length = getlength();
   setOptions();
-  console.log(optionsArry);
 	var typesCount = hasLower + hasUpper + hasNumber + hasSymbol;
   console.log(typesCount);
 	var typesArr = [{ hasLower }, { hasUpper }, { hasNumber }, { hasSymbol }].filter(item => Object.values(item)[0]);
@@ -105,7 +77,7 @@ function generatePassword() {
   // Doesn't have a selected type
   if(typesCount === 0) {
     alert('Must Select atleast One option. Try again!');
-    return "Must Select atleast One option.\nHit generate password to try again!";
+    return '';
   }
 
   // create a loop
