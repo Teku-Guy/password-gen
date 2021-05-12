@@ -80,12 +80,14 @@ function generatePassword() {
 
   // create the gen loop
   for(let i=0; i<length; i+=typesCount) {
+    //debugger;
+    console.log("i");
     typesArr.forEach(type => {
       var funcName = Object.keys(type)[0];
       generatedPassword += randomFunc[funcName]();
     });
   }
-
+  console.log(generatedPassword);
   finalPassword = generatedPassword.slice(0, length);
   return finalPassword;
 }
